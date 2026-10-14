@@ -1,37 +1,26 @@
 # Teardown
 
-Интерактивный гайд по устройствам: колесо мыши приближает камеру и «разбирает» устройство на детали, при наведении на деталь справа показывается описание из базы данных. Страница не прокручивается, колесо управляет только приближением и разлётом.
+Статический сайт без сборки: колесо мыши приближает камеру и разбирает устройство, при наведении на деталь справа появляется описание. Страница не прокручивается.
 
-Стек: Next.js (App Router) · TypeScript · Tailwind CSS 4 · React Three Fiber · Prisma + PostgreSQL.
+## Структура
 
-## Запуск
-
-```bash
-npm install
-npm run dev
+```
+public/
+  index.html      разметка страницы
+  css/style.css   оформление
+  js/data.js      данные о гаджете и деталях (вместо БД)
+  js/main.js      3D-сцена (Three.js), управление и анимация
+wrangler.jsonc    настройки Cloudflare
 ```
 
-Открой http://localhost:3000. Без базы данных сайт работает на демо-данных из `data/demo-phone.ts`.
+## Локальный запуск
 
-## Подключение PostgreSQL
+Откройте папку `public` любым статическим сервером, например `npx serve public`, и зайдите на показанный адрес.
 
-```bash
-cp .env.example .env
-docker compose up -d
-npm run db:push
-npm run db:seed
-```
+## Деплой на Cloudflare
 
-После этого `getGadget()` в `lib/gadgets.ts` читает данные из БД.
+1. Положите все файлы в корень репозитория GitHub. Старые файлы Next.js (package.json, app/, prisma/ и т.д.) удалите.
+2. В проекте Cloudflare откройте Settings → Build: поле Build command оставьте пустым, Deploy command: `npx wrangler deploy`.
+3. Имя в `wrangler.jsonc` (`name`) должно совпадать с именем проекта в Cloudflare.
 
-## Управление
-
-- Колесо мыши, стрелки, PageUp/PageDown, пробел: прогресс разбора.
-- Кнопки «Собрать» и «Разобрать» внизу.
-- Телефон: свайп вверх и вниз, тап по детали.
-
-## Как добавить устройство
-
-1. Добавь запись `Gadget` с `Part` и `PartSpec` (см. `data/demo-phone.ts`).
-2. В `components/Viewer.tsx` в `SHAPES` добавь геометрию детали с ключом, равным `Part.slug`.
-3. Потом `SHAPES` можно заменить на загрузку GLB (`useGLTF`), находя узлы по имени.
+Three.js подключается с cdnjs.cloudflare.com, поэтому сайту нужен доступ в интернет.

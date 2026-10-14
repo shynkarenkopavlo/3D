@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Teardown: интерактивный гайд по устройствам</title>
+  <meta name="description" content="Разберите устройство колесом мыши и узнайте, что внутри.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="app">
+    <section class="stage" id="stage">
+      <header class="title">
+        <h1 id="gadget-name"></h1>
+        <p id="gadget-summary"></p>
+      </header>
+      <nav class="parts" id="parts" aria-label="Детали"></nav>
+      <div class="controls">
+        <button id="btn-assemble" type="button">Собрать</button>
+        <div class="track"><div class="fill" id="fill"></div></div>
+        <button id="btn-explode" type="button">Разобрать</button>
+      </div>
+    </section>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
